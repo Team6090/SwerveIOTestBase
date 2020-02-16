@@ -15,9 +15,10 @@ import java.util.HashMap;
 import java.io.IOException;
 import java.util.List;
 
-import frc.robot.commands.DriveWithJoystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
 //import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
@@ -36,8 +37,6 @@ import net.bancino.robotics.swerveio.si.ChassisDimension;
 import net.bancino.robotics.swerveio.si.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 import net.bancino.robotics.swerveio.SwerveFlag;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The drivetrain subsystem drives the robot! (wow!).

@@ -17,8 +17,8 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
+import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 
-import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.RunnableCommand;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
@@ -82,7 +82,7 @@ public class RobotContainer {
 
   private void configureCommands() {
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
-    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
+    drivetrain.setDefaultCommand(new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
   }
 
   /**
