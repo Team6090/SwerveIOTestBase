@@ -122,7 +122,7 @@ public class DriveTrain extends SwerveDrive {
       @Override
       public void initialize(SwerveDrive swerve) {
         swerve.zeroDriveEncoders();
-        swerve.setFieldCentric(false);
+        //swerve.setFieldCentric(false);
 
         //swerve.setIdleAngle(0, false);
 

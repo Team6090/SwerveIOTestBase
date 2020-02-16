@@ -18,8 +18,7 @@ import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
-
-import frc.robot.commands.RunnableCommand;
+import net.bancino.robotics.swerveio.command.RunnableCommand;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
@@ -69,20 +68,17 @@ public class RobotContainer {
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
     xbox0A.whenPressed(new Rotate(drivetrain));
 
-    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
+    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
     xbox0X.whenPressed(new RunnableCommand(() -> {
-      drivetrain.setIdleAngle(0, false);
-    }, drivetrain));
-
-    JoystickButton xbox0Y = new JoystickButton(xbox0, XboxController.Button.kY.value);
-    xbox0Y.whenPressed(new RunnableCommand(() -> {
-      drivetrain.setIdleAngle(135, true);
+      drivetrain.getGyro().zero();
     }, drivetrain));
   }
 
   private void configureCommands() {
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
-    drivetrain.setDefaultCommand(new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
+    SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
+    swerveDriveTeleop.setThrottle(0.4);
+    drivetrain.setDefaultCommand(swerveDriveTeleop);
   }
 
   /**
