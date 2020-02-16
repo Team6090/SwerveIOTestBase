@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.robot.subsystems.DriveTrain;
 
@@ -89,6 +90,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // This command will run in autonomous
-    return new PathweaverSwerveDrive("paths/output/Test.wpilib.json");
+    try {
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/Test.wpilib.json");
+    } catch (java.io.IOException e) {
+      e.printStackTrace();
+      DriverStation.reportError("Could not load pathweaver swerve drive.", true);
+      return null;
+    }
   }
 }
