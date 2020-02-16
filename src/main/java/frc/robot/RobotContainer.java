@@ -19,6 +19,7 @@ import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.RunnableCommand;
+import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
@@ -88,6 +89,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // This command will run in autonomous
-    return null;
+    return new PathweaverSwerveDrive("paths/output/Test.wpilib.json");
   }
 }
