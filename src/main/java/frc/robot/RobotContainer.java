@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.robot.subsystems.DriveTrain;
 
-import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
@@ -41,6 +40,7 @@ public class RobotContainer {
   private final DriveTrain drivetrain;
 
   /* Additional global objects can go here. */
+  @SuppressWarnings("unused")
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
 
@@ -67,9 +67,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whenPressed(new Rotate(drivetrain));
-
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
     xbox0X.whenPressed(new RunnableCommand(() -> {
       drivetrain.getGyro().zero();
