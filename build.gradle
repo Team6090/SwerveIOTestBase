@@ -9,6 +9,10 @@ targetCompatibility = JavaVersion.VERSION_11
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
 repositories {
+     /* This is for the WPILib and New commands, they aren't online officially. */
+    maven {
+        url 'https://team6090.bancino.net/maven'
+    }
     /* RevRobotics */
     maven {
         url 'https://www.revrobotics.com/content/sw/max/sdk/maven/'
