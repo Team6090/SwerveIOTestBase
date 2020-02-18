@@ -104,7 +104,6 @@ public class DriveTrain extends SwerveDrive {
       public List<SwerveFlag> applyFlags() {
         return List.of(
           SwerveFlag.ENABLE_PIVOT_OPTIMIZE,
-          SwerveFlag.ENABLE_PIVOT_LAST_ANGLE
         );
       }
 
