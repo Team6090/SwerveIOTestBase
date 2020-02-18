@@ -31,7 +31,7 @@ import net.bancino.robotics.swerveio.si.Length;
 import net.bancino.robotics.swerveio.si.Unit;
 import net.bancino.robotics.swerveio.si.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
-import net.bancino.robotics.swerveio.kinematics.SwerveDriveKinematics;
+import net.bancino.robotics.swerveio.kinematics.DefaultSwerveKinematics;
 import net.bancino.robotics.swerveio.kinematics.SwerveKinematicsProvider;
 import net.bancino.robotics.swerveio.SwerveFlag;
 
@@ -51,14 +51,6 @@ public class DriveTrain extends SwerveDrive {
 
   public DriveTrain(AbstractGyro gyro) throws SwerveException {
     super(new SwerveMeta() {
-      //private final AbstractEncoder frontRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    FRONT_RIGHT_ENCODER_OFFSET);
-      //private final AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    FRONT_LEFT_ENCODER_OFFSET);
-      //private final AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    REAR_LEFT_ENCODER_OFFSET);
-      //private final AbstractEncoder rearRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    REAR_RIGHT_ENCODER_OFFSET);
 
       private final AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
       private final AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
@@ -67,12 +59,12 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public String name() {
-        return "Team6090 SwerveIO Drivetrain";
+        return "SwerveIOTestBase";
       }
 
       @Override
       public SwerveKinematicsProvider kinematicsProvider() {
-        return new SwerveDriveKinematics(new SquareChassis(new Length(29, Unit.INCHES)));
+        return new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES)));
       }
 
       @Override
