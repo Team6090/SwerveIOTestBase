@@ -29,9 +29,10 @@ import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 import net.bancino.robotics.swerveio.log.csv.CSVPIDSwerveLogger;
 import net.bancino.robotics.swerveio.si.Length;
 import net.bancino.robotics.swerveio.si.Unit;
-import net.bancino.robotics.swerveio.si.ChassisDimension;
 import net.bancino.robotics.swerveio.si.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
+import net.bancino.robotics.swerveio.kinematics.SwerveDriveKinematics;
+import net.bancino.robotics.swerveio.kinematics.SwerveKinematicsProvider;
 import net.bancino.robotics.swerveio.SwerveFlag;
 
 /**
@@ -70,8 +71,8 @@ public class DriveTrain extends SwerveDrive {
       }
 
       @Override
-      public ChassisDimension chassisDimensions() {
-        return new SquareChassis(new Length(29, Unit.INCHES));
+      public SwerveKinematicsProvider kinematicsProvider() {
+        return new SwerveDriveKinematics(new SquareChassis(new Length(29, Unit.INCHES)));
       }
 
       @Override
