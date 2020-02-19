@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -87,8 +88,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // This command will run in autonomous
+    String auton = SmartDashboard.getString("Autonomous", "Forward");
     try {
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/Test.wpilib.json");
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + auton + ".wpilib.json");
     } catch (java.io.IOException e) {
       e.printStackTrace();
       DriverStation.reportError("Could not load pathweaver swerve drive.", true);
