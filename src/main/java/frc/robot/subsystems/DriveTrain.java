@@ -88,6 +88,7 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public AbstractGyro gyro() {
+        gyro.zero();
         return gyro;
       }
 
