@@ -88,9 +88,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // This command will run in autonomous
-    String auton = SmartDashboard.getString("Autonomous", "Forward");
     try {
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + auton + ".wpilib.json");
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Test" + ".wpilib.json");
     } catch (java.io.IOException e) {
       e.printStackTrace();
       DriverStation.reportError("Could not load pathweaver swerve drive.", true);
