@@ -16,7 +16,7 @@ public class Rotate extends CommandBase {
 
   private SwerveDrive swerve;
   private double degrees;
-  private long duration, startTime;
+  private long duration;
   private double targetAngle;
   private NavXGyro gyro;
   /**
@@ -33,7 +33,6 @@ public class Rotate extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startTime = System.currentTimeMillis();
     targetAngle = gyro.getContinuousAngle() + degrees;
   }
 
