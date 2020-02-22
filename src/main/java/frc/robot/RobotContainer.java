@@ -9,18 +9,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
-
+import frc.robot.commands.HallAuton;
+import frc.robot.commands.Rotate;
 import frc.robot.subsystems.DriveTrain;
 
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.RunnableCommand;
-import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
@@ -68,10 +67,13 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
-    xbox0X.whenPressed(new RunnableCommand(() -> {
+    JoystickButton leftBumper = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
+    leftBumper.whenPressed(new RunnableCommand(() -> {
       drivetrain.getGyro().zero();
     }, drivetrain));
+
+    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
+    xbox0X.whenPressed(new Rotate(drivetrain, gyro, 90, 1000));
   }
 
   private void configureCommands() {
@@ -89,7 +91,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // This command will run in autonomous
     try {
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Test" + ".wpilib.json");
+      return new HallAuton(drivetrain, "paths/output/" + "Test" + ".wpilib.json");
     } catch (java.io.IOException e) {
       e.printStackTrace();
       DriverStation.reportError("Could not load pathweaver swerve drive.", true);
