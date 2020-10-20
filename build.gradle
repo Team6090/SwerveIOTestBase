@@ -11,7 +11,7 @@ def ROBOT_MAIN_CLASS = "frc.robot.Main"
 repositories {
      /* This is for the WPILib and New commands, they aren't online officially. */
     maven {
-        url 'https://team6090.bancino.net/maven'
+        url 'https://maven.bancino.net/'
     }
     /* RevRobotics */
     maven {
@@ -56,6 +56,7 @@ dependencies {
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 
     implementation project(':SwerveIO')
+    implementation 'net.bancino.robotics:LibOI:1.0.2'
 }
 
 jar {

@@ -16,10 +16,9 @@ import frc.robot.commands.HallAuton;
 import frc.robot.commands.Rotate;
 import frc.robot.subsystems.DriveTrain;
 
-import net.bancino.robotics.swerveio.exception.SwerveException;
-import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
+import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
-import net.bancino.robotics.swerveio.command.RunnableCommand;
+import net.bancino.robotics.liboi.command.RunnableCommand;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
@@ -36,25 +35,17 @@ public class RobotContainer {
 
   private final XboxController xbox0 = new XboxController(0);
 
-  /* The robot's subsystems and commands are defined here */
-  private final DriveTrain drivetrain;
-
-  /* Additional global objects can go here. */
   @SuppressWarnings("unused")
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
+
+  /* The robot's subsystems and commands are defined here */
+  private final SwerveDrive drivetrain = DriveTrain.create(gyro);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    /* Construct our subsystems here if they throw exceptions. */
-    try {
-      drivetrain = new DriveTrain(gyro);
-    } catch (SwerveException e) {
-      throw new SwerveRuntimeException(e);
-    }
-
     // Configure the button bindings
     configureButtonBindings();
     configureCommands();
