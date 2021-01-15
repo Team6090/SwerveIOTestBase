@@ -1,3 +1,4 @@
 [submodule "SwerveIO"]
 	path = SwerveIO
 	url = https://git.bancino.net/robotics/SwerveIO.git
+	branch = master
