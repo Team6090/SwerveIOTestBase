@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,11 +17,11 @@ import frc.robot.subsystems.DriveTrain;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
-import net.bancino.robotics.liboi.command.RunnableCommand;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
 /**
@@ -59,7 +58,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton leftBumper = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
-    leftBumper.whenPressed(new RunnableCommand(() -> {
+    leftBumper.whenPressed(new InstantCommand(() -> {
       drivetrain.getGyro().zero();
     }, drivetrain));
 
