@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Const;
 
-
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.module.SwerveModule;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
@@ -22,14 +21,16 @@ import net.bancino.robotics.swerveio.geometry.ChassisDimension;
 import net.bancino.robotics.swerveio.gyro.Gyro;
 
 /**
- * The drivetrain subsystem drives the robot! (wow!).
+ * The drivetrain subsystem drives the robot!
  *
  * This subsystem consists of the following components:
  * - Swerve module (4x drive + pivot motor)
  *
- * This subsystem should provide the following functions:
- * - Run the drivetrain with joystick
- * - Run the drivetrain autonomously
+ * This subsystem should provide an interface for the
+ * following functions:
+ * 
+ * - Running the drivetrain with joystick
+ * - Running the drivetrain autonomously
  *
  * @author Jordan Bancino
  */
@@ -40,10 +41,10 @@ public class DriveTrain {
       .useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
       .setGyro(gyro)
       .setModuleMap((map) -> {
-        map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, 0));
-        map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, 0));
-        map.put(SwerveModule.Location.REAR_LEFT, new MK3SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, 0));
-        map.put(SwerveModule.Location.REAR_RIGHT, new MK3SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, 0));
+        map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, 0, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET));
+        map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, 0, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET));
+        map.put(SwerveModule.Location.REAR_LEFT, new MK3SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, 0, Const.Encoder.REAR_LEFT_ENCODER_OFFSET));
+        map.put(SwerveModule.Location.REAR_RIGHT, new MK3SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, 0, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET));
       }, (module) -> {
         PIDController modulePid = module.getPivotPIDController();
         modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
