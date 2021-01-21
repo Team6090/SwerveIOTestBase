@@ -13,7 +13,7 @@ import frc.robot.Const;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.module.SwerveModule;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
-import net.bancino.robotics.swerveio.module.MK2SwerveModule;
+import net.bancino.robotics.swerveio.module.MK3SwerveModule;
 import net.bancino.robotics.swerveio.pid.PIDController;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 import net.bancino.robotics.swerveio.geometry.Length;
@@ -40,15 +40,10 @@ public class DriveTrain {
       .useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
       .setGyro(gyro)
       .setModuleMap((map) -> {
-        AnalogEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
-        AnalogEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
-        AnalogEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, Const.Encoder.REAR_LEFT_ENCODER_OFFSET);
-        AnalogEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET);
-
-        map.put(SwerveModule.Location.FRONT_RIGHT, new MK2SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, frontRightEncoder));
-        map.put(SwerveModule.Location.FRONT_LEFT, new MK2SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, frontLeftEncoder));
-        map.put(SwerveModule.Location.REAR_LEFT, new MK2SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, rearLeftEncoder));
-        map.put(SwerveModule.Location.REAR_RIGHT, new MK2SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
+        map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, 0));
+        map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, 0));
+        map.put(SwerveModule.Location.REAR_LEFT, new MK3SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, 0));
+        map.put(SwerveModule.Location.REAR_RIGHT, new MK3SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, 0));
       }, (module) -> {
         PIDController modulePid = module.getPivotPIDController();
         modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
