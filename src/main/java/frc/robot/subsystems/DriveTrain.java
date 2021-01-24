@@ -38,7 +38,7 @@ public class DriveTrain {
 
   public static SwerveDrive create(Gyro gyro) {
     return new SwerveDrive.Builder()
-      .useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
+      .useDefaultKinematics(new ChassisDimension(new Length(22.5, Unit.INCHES)))
       .setGyro(gyro)
       .setModuleMap((map) -> {
         map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET));
@@ -54,6 +54,7 @@ public class DriveTrain {
       })
       .build((swerve) -> {
         swerve.zeroDriveEncoders();
+        swerve.enableIdleAngle(true);
         //swerve.setFieldCentric(false);
 
         //swerve.setIdleAngle(0, false);
