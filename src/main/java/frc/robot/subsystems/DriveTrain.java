@@ -53,7 +53,6 @@ public class DriveTrain {
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
       })
       .build((swerve) -> {
-        swerve.zeroDriveEncoders();
         swerve.enableIdleAngle(true);
         //swerve.setFieldCentric(false);
 
