@@ -20,8 +20,8 @@ public class Const {
 
     public static class PID {
         public static final double SWERVE_MODULE_RAMP_RATE = 0.0;
-        public static final double SWERVE_MODULE_P         = 0.00007;
-        public static final double SWERVE_MODULE_I         = 0;
+        public static final double SWERVE_MODULE_P         = 0.003;
+        public static final double SWERVE_MODULE_I         = 0.00000155;
         public static final double SWERVE_MODULE_D         = 0;
     }
 
@@ -30,9 +30,9 @@ public class Const {
      */
     public static class Encoder {
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 0;
-        public static final double FRONT_LEFT_ENCODER_OFFSET  = 0;
-        public static final double REAR_LEFT_ENCODER_OFFSET   = 0;
-        public static final double REAR_RIGHT_ENCODER_OFFSET  = 0;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 333.691;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  = 364.287;
+        public static final double REAR_LEFT_ENCODER_OFFSET   = 144.844;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  = 235.0196;
     }
 }
