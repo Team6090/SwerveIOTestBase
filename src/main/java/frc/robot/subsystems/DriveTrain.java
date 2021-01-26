@@ -19,6 +19,7 @@ import net.bancino.robotics.swerveio.geometry.Length;
 import net.bancino.robotics.swerveio.geometry.Length.Unit;
 import net.bancino.robotics.swerveio.geometry.ChassisDimension;
 import net.bancino.robotics.swerveio.gyro.Gyro;
+import net.bancino.robotics.swerveio.SwerveDrive.DegreeOfFreedom;
 
 /**
  * The drivetrain subsystem drives the robot!
@@ -53,12 +54,15 @@ public class DriveTrain {
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
       })
       .build((swerve) -> {
-        swerve.enableIdleAngle(true);
+        swerve.enableIdleAngle(false);
         //swerve.setFieldCentric(false);
 
         //swerve.setIdleAngle(0, false);
 
         swerve.startLogging(new DashboardSwerveLogger());
+        swerve.setReversed(DegreeOfFreedom.FORWARD, true);
+        swerve.setReversed(DegreeOfFreedom.STRAFE, true);
+        swerve.setReversed(DegreeOfFreedom.ROTATION, true);
       });
   }
 }
