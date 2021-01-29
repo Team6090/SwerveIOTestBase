@@ -60,9 +60,9 @@ public class DriveTrain {
         //swerve.setIdleAngle(0, false);
 
         swerve.startLogging(new DashboardSwerveLogger());
-        swerve.setReversed(DegreeOfFreedom.FORWARD, true);
-        swerve.setReversed(DegreeOfFreedom.STRAFE, true);
-        swerve.setReversed(DegreeOfFreedom.ROTATION, true);
+        //swerve.setReversed(DegreeOfFreedom.FORWARD, true);
+        //swerve.setReversed(DegreeOfFreedom.STRAFE, true);
+        //swerve.setReversed(DegreeOfFreedom.ROTATION, true);
       });
   }
 }

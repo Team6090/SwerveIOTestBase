@@ -29,10 +29,10 @@ public class Const {
      * Encoders - Analog Ports and position offsets
      */
     public static class Encoder {
-        /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 333.691;
-        public static final double FRONT_LEFT_ENCODER_OFFSET  = 364.287;
-        public static final double REAR_LEFT_ENCODER_OFFSET   = 144.844;
-        public static final double REAR_RIGHT_ENCODER_OFFSET  = 235.0196;
+        /* The angle offsets tell us where zero is for each swerve module - Make all the gears face to the RIGHT */
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 355.576;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  = 357.539;
+        public static final double REAR_LEFT_ENCODER_OFFSET   = 355.430;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  = 356.572;
     }
 }
