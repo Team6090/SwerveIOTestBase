@@ -15,10 +15,10 @@ public class Const {
         public static final int REAR_LEFT_PIVOT_MOTOR   =  3; /* Module 3 */
         public static final int REAR_RIGHT_PIVOT_MOTOR  =  4; /* Module 4 */
 
-        public static final int FRONT_RIGHT_ENCODER     =  9; /* Module 1 */
-        public static final int FRONT_LEFT_ENCODER      = 10; /* Module 2 */
-        public static final int REAR_LEFT_ENCODER       = 11; /* Module 3 */
-        public static final int REAR_RIGHT_ENCODER      = 12; /* Module 4 */
+        public static final int FRONT_RIGHT_ENCODER     = 11; /* Module 1 */
+        public static final int FRONT_LEFT_ENCODER      = 12; /* Module 2 */
+        public static final int REAR_LEFT_ENCODER       =  9; /* Module 3 */
+        public static final int REAR_RIGHT_ENCODER      = 10; /* Module 4 */
 
         public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
@@ -39,9 +39,9 @@ public class Const {
      */
     public static class Angle {
         /* The angle offsets tell us where zero is for each swerve module - Make all the gears face to the RIGHT */
-        public static final double FRONT_RIGHT_OFFSET = 0;
-        public static final double FRONT_LEFT_OFFSET  = 0;
-        public static final double REAR_LEFT_OFFSET   = 0;
-        public static final double REAR_RIGHT_OFFSET  = 0;
+        public static final double FRONT_RIGHT_OFFSET = 353.584;
+        public static final double FRONT_LEFT_OFFSET  = 156.230;
+        public static final double REAR_LEFT_OFFSET   = 82.354;
+        public static final double REAR_RIGHT_OFFSET  = 78.223;
     }
 }
