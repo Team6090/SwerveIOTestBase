@@ -41,6 +41,7 @@ public class DriveTrain {
     return new SwerveDrive.Builder()
       .useDefaultKinematics(new ChassisDimension(new Length(22.5, Unit.INCHES)))
       .setGyro(gyro)
+      .setAnglePID(0.0055, 0.00000155, 0)
       .setModuleMap((map) -> {
         map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET));
         map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET));
