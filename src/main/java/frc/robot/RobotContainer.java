@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -81,7 +83,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // This command will run in autonomous
     try {
-      return new HallAuton(drivetrain, "paths/output/" + "Test" + ".wpilib.json");
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Simple" + ".wpilib.json");
     } catch (java.io.IOException e) {
       e.printStackTrace();
       DriverStation.reportError("Could not load pathweaver swerve drive.", true);
