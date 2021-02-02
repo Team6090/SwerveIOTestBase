@@ -40,6 +40,7 @@ public class DriveTrain {
   public static SwerveDrive create(Gyro gyro) {
     return new SwerveDrive.Builder()
       .useDefaultKinematics(new ChassisDimension(new Length(22.5, Unit.INCHES)))
+      .setRampRate(0.035)
       .setGyro(gyro)
       .setAnglePID(Const.PID.SWERVE_DRIVE_ANGLE_P, Const.PID.SWERVE_DRIVE_ANGLE_I, Const.PID.SWERVE_DRIVE_ANGLE_D)
       .setModuleMap((map) -> {
