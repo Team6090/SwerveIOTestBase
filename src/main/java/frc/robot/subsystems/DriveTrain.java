@@ -40,12 +40,14 @@ public class DriveTrain {
   public static SwerveDrive create(Gyro gyro) {
     return new SwerveDrive.Builder()
       .useDefaultKinematics(new ChassisDimension(new Length(22.5, Unit.INCHES)))
+      .setRampRate(0.035)
       .setGyro(gyro)
+      .setAnglePID(Const.PID.SWERVE_DRIVE_ANGLE_P, Const.PID.SWERVE_DRIVE_ANGLE_I, Const.PID.SWERVE_DRIVE_ANGLE_D)
       .setModuleMap((map) -> {
-        map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET));
-        map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET));
-        map.put(SwerveModule.Location.REAR_LEFT, new MK3SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, Const.Encoder.REAR_LEFT_ENCODER_OFFSET));
-        map.put(SwerveModule.Location.REAR_RIGHT, new MK3SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET));
+        map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, Const.CAN.FRONT_RIGHT_ENCODER, Const.Angle.FRONT_RIGHT_OFFSET));
+        map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, Const.CAN.FRONT_LEFT_ENCODER, Const.Angle.FRONT_LEFT_OFFSET));
+        map.put(SwerveModule.Location.REAR_LEFT, new MK3SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, Const.CAN.REAR_LEFT_ENCODER, Const.Angle.REAR_LEFT_OFFSET));
+        map.put(SwerveModule.Location.REAR_RIGHT, new MK3SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, Const.CAN.REAR_RIGHT_ENCODER, Const.Angle.REAR_RIGHT_OFFSET));
       }, (module) -> {
         PIDController modulePid = module.getPivotPIDController();
         modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
