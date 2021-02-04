@@ -8,10 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.RollingAverage;
@@ -21,9 +17,11 @@ import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 import net.bancino.robotics.swerveio.pid.MiniPID;
+import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
+import net.bancino.robotics.swerveio.command.SwerveDriveTeleopCommand;
 
 @SuppressWarnings("unused")
-public class LimelightAlign extends CommandBase {
+public class LimelightAlign extends SwerveDriveTeleopCommand {
 
     /* Import parameters from the config file. Just slapped in here for SwerveIOTestBase. */
     private static final int rollingAverageWindow = 15;
@@ -40,7 +38,6 @@ public class LimelightAlign extends CommandBase {
     private static final double strafeP = 0.008;
     private static final double strafeI = 0.001;
 
-    private SwerveDrive drivetrain;
     private Limelight limelight;
     private boolean doFrontHatch;
     private boolean isFinished = false;
@@ -49,15 +46,10 @@ public class LimelightAlign extends CommandBase {
 
     /** Variables to hold distance and the vector speed on that axis. */
     private double fwd, str, rcw;
-    private XboxController.Axis xboxFWD, xboxSTR, xboxRCW;
 
     /** Timeout variables */
     private long timeout = 5000;
     private long startTime = 0;
-    
-    /** Teleop variables */
-    private double deadband, throttle;
-    private XboxController joystick;
 
     /** Makes a new RollingAverage for every axis that uses the average limelight readings over so many readings. */
     private RollingAverage rollingAverageFWD = new RollingAverage(rollingAverageWindow);
@@ -69,19 +61,14 @@ public class LimelightAlign extends CommandBase {
     private MiniPID pidRCW = new MiniPID(rotateP, rotateI, 0);
     private MiniPID pidSTR = new MiniPID(strafeP, strafeI, 0);
 
-    public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, XboxController joystick, XboxController.Axis xboxFWD, XboxController.Axis xboxSTR, XboxController.Axis xboxRCW, boolean doFrontHatch) {
-        this.drivetrain = drivetrain;
+    public LimelightAlign(SwerveDrive drivetrain, SwerveDriveTeleop swerveDriveTeleop, Limelight limelight, boolean doFrontHatch) {
+        super(drivetrain, swerveDriveTeleop);
         this.limelight = limelight;
-        this.joystick = joystick;
-        this.xboxFWD = xboxFWD;
-        this.xboxSTR = xboxSTR;
-        this.xboxRCW = xboxRCW;
         this.doFrontHatch = doFrontHatch;
-        addRequirements(drivetrain);
     }
 
     @Override
-    public void initialize() {
+    public void initialize(SwerveDrive drivetrain) {
         /** Setting the setpoint that the PID will try to achieve for each axis. Defined in config file. */
         pidFWD.setSetpoint(desiredDistancetoTarget);
         pidRCW.setSetpoint(desiredAngletoTarget);
@@ -116,7 +103,7 @@ public class LimelightAlign extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void execute(SwerveDrive drivetrain, SwerveVector joystickVector) {
 
         /** If there's no target, no bueno. Exit the command. */
         isFinished = !limelight.hasValidTargets();
@@ -191,20 +178,14 @@ public class LimelightAlign extends CommandBase {
             isFinished = true;
         }
 
-        /** Adds in the deadbanding for manual Xbox control. */
-        setThrottle(0.9);
-        setThrottle(0.2);
-        fwd += -throttle(deadband(joystick.getRawAxis(xboxFWD.value)));
-        str += throttle(deadband(joystick.getRawAxis(xboxSTR.value)));
-        rcw += throttle(deadband(joystick.getRawAxis(xboxRCW.value)));
-
         /** Robot go vroom on the vector with swerve drive. */
         SwerveVector alignmentVector = new SwerveVector(fwd, str, -rcw);
+        alignmentVector = alignmentVector.plus(joystickVector);
         drivetrain.drive(alignmentVector);
     }
 
     @Override
-    public void end(boolean interrupted) {
+    public void end(SwerveDrive drivetrain, boolean interrupted) {
         limelight.setLedMode(LedMode.PIPELINE_CURRENT);
         drivetrain.setFieldCentric(isFieldCentric);
         rollingAverageRCW.reset();
@@ -214,61 +195,4 @@ public class LimelightAlign extends CommandBase {
     public boolean isFinished() {
         return isFinished;
     }
-
-    /**
-     * Set a deadband on the joystick. This is a little bit of range around the zero
-     * mark that does absolutely nothing. This is helpful for joysticks that are
-     * overly sensitive or don't always read zero in the neutral position.
-     * 
-     * @param deadband The deadband to set, between 0 and 1.
-     */
-    public void setDeadband(double deadband) {
-        this.deadband = deadband;
-    }
-
-    /**
-     * Set a throttle on the joystick. This is helpful for limiting the top speed of
-     * the swerve drive, which can be useful for training.
-     * 
-     * @param throttle The throttle to set. This is the maximum speed the joystick
-     *                 should output. So, to throttle this command at 50% power,
-     *                 you'd put in 0.5 for the throttle.
-     */
-    public void setThrottle(double throttle) {
-        this.throttle = throttle;
-    }
-
-    /**
-     * Calculate a deadband
-     * 
-     * @param raw The input on the joystick to mod
-     * @return The result of the mod.
-     */
-    protected double deadband(double raw) {
-        /* Compute the deadband mod */
-        if (raw < 0.0d) {
-            if (raw <= -deadband) {
-                return (raw + deadband) / (1 - deadband);
-            } else {
-                return 0.0d;
-            }
-        } else {
-            if (raw >= deadband) {
-                return (raw - deadband) / (1 - deadband);
-            } else {
-                return 0.0d;
-            }
-        }
-    }
-
-    /**
-     * Throttle a raw value based on the currently set throttle.
-     * 
-     * @param raw The raw joystick value to scale.
-     * @return A scaled joystick value.
-     */
-    protected double throttle(double raw) {
-        return raw * throttle;
-    }
-
 }

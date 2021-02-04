@@ -44,7 +44,6 @@ public class RobotContainer {
 
   /* The robot's subsystems and commands are defined here */
   private final SwerveDrive drivetrain = DriveTrain.create(gyro);
-
   private final Limelight limelight = new Limelight();
 
   /**
@@ -69,7 +68,7 @@ public class RobotContainer {
     }, drivetrain));
 
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whileHeld(new LimelightAlign(drivetrain, limelight, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX, true));
+    xbox0A.whileHeld(new LimelightAlign(drivetrain, swerveDriveTeleop, limelight, true));
   }
 
   private void configureCommands() {
