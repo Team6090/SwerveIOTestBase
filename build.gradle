@@ -66,6 +66,7 @@ dependencies {
     // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
 
     implementation project(':SwerveIO')
+    implementation "net.bancino.robotics:JLimelight:1.3.2"
 }
 
 // Simulation configuration (e.g. environment variables).

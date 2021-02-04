@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.HallAuton;
 import frc.robot.commands.Rotate;
+import frc.robot.commands.LimelightAlign;
 import frc.robot.subsystems.DriveTrain;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+import net.bancino.robotics.jlimelight.Limelight;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -40,6 +42,8 @@ public class RobotContainer {
 
   /* The robot's subsystems and commands are defined here */
   private final SwerveDrive drivetrain = DriveTrain.create(gyro);
+
+  private final Limelight limelight = new Limelight();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -62,8 +66,8 @@ public class RobotContainer {
       drivetrain.getGyro().zero();
     }, drivetrain));
 
-    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    xbox0X.whenPressed(new Rotate(drivetrain, gyro, 90, 1000));
+    JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
+    xbox0A.whileHeld(new LimelightAlign(drivetrain, limelight, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX, true));
   }
 
   private void configureCommands() {
