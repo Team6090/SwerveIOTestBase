@@ -24,14 +24,14 @@ import net.bancino.robotics.swerveio.command.SwerveDriveTeleopCommand;
 public class LimelightAlign extends SwerveDriveTeleopCommand {
 
     /* Import parameters from the config file. Just slapped in here for SwerveIOTestBase. */
-    private static final int rollingAverageWindow = 15;
+    private static final int rollingAverageWindow = 10;
     //private static final double rampRate = 0.5;
     private static final double maxOutput = 0.7;
     private static final double desiredDistancetoTarget = 204;
     private static final double desiredAngletoTarget = 0;
     private static final double desiredStrafetoTarget = 0;
-    private static final double forwardP = 0.001;
-    private static final double forwardI = 0.001;
+    private static final double forwardP = 0.0018;
+    private static final double forwardI = 0.0005;
     private static final double rotateP = 0.005;
     private static final double rotateI = 0.0001;
     private static final double rotateIZone = 15;

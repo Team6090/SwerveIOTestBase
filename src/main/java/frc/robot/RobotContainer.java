@@ -44,6 +44,7 @@ public class RobotContainer {
 
   /* The robot's subsystems and commands are defined here */
   private final SwerveDrive drivetrain = DriveTrain.create(gyro);
+  private final SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
   private final Limelight limelight = new Limelight();
 
   /**
@@ -68,12 +69,11 @@ public class RobotContainer {
     }, drivetrain));
 
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whileHeld(new LimelightAlign(drivetrain, swerveDriveTeleop, limelight, true));
+    xbox0A.toggleWhenPressed(new LimelightAlign(drivetrain, swerveDriveTeleop, limelight, true));
   }
 
   private void configureCommands() {
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
-    SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(0.7);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
   }
