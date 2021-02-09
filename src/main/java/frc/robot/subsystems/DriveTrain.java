@@ -11,7 +11,6 @@ import frc.robot.Const;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.module.SwerveModule;
-import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.module.MK3SwerveModule;
 import net.bancino.robotics.swerveio.pid.PIDController;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
@@ -19,7 +18,6 @@ import net.bancino.robotics.swerveio.geometry.Length;
 import net.bancino.robotics.swerveio.geometry.Length.Unit;
 import net.bancino.robotics.swerveio.geometry.ChassisDimension;
 import net.bancino.robotics.swerveio.gyro.Gyro;
-import net.bancino.robotics.swerveio.SwerveDrive.DegreeOfFreedom;
 
 /**
  * The drivetrain subsystem drives the robot!
@@ -39,10 +37,19 @@ public class DriveTrain {
 
   public static SwerveDrive create(Gyro gyro) {
     return new SwerveDrive.Builder()
-      .useDefaultKinematics(new ChassisDimension(new Length(22.5, Unit.INCHES)))
-      .setRampRate(0.035)
+      .useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
       .setGyro(gyro)
-      .setAnglePID(Const.PID.SWERVE_DRIVE_ANGLE_P, Const.PID.SWERVE_DRIVE_ANGLE_I, Const.PID.SWERVE_DRIVE_ANGLE_D)
+      .setAnglePID(Const.PID.ANGLE_STANDING_SLOT, Const.PID.ANGLE_MOVING_SLOT, (pid) -> {
+        pid.setP(Const.PID.ANGLE_STANDING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_STANDING_P);
+        pid.setI(Const.PID.ANGLE_STANDING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_STANDING_I);
+        pid.setD(Const.PID.ANGLE_STANDING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_STANDING_D);
+
+        pid.setP(Const.PID.ANGLE_MOVING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_MOVING_P);
+        pid.setI(Const.PID.ANGLE_MOVING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_MOVING_I);
+        pid.setD(Const.PID.ANGLE_MOVING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_MOVING_D);
+        
+      })
+      .setRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE)
       .setModuleMap((map) -> {
         map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, Const.CAN.FRONT_RIGHT_ENCODER, Const.Angle.FRONT_RIGHT_OFFSET));
         map.put(SwerveModule.Location.FRONT_LEFT, new MK3SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, Const.CAN.FRONT_LEFT_ENCODER, Const.Angle.FRONT_LEFT_OFFSET));
@@ -50,21 +57,17 @@ public class DriveTrain {
         map.put(SwerveModule.Location.REAR_RIGHT, new MK3SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, Const.CAN.REAR_RIGHT_ENCODER, Const.Angle.REAR_RIGHT_OFFSET));
       }, (module) -> {
         PIDController modulePid = module.getPivotPIDController();
-        modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
+        //modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
         modulePid.setP(Const.PID.SWERVE_MODULE_P);
         modulePid.setI(Const.PID.SWERVE_MODULE_I);
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
       })
       .build((swerve) -> {
-        swerve.enableIdleAngle(false);
         //swerve.setFieldCentric(false);
 
         //swerve.setIdleAngle(0, false);
 
         swerve.startLogging(new DashboardSwerveLogger());
-        //swerve.setReversed(DegreeOfFreedom.FORWARD, true);
-        //swerve.setReversed(DegreeOfFreedom.STRAFE, true);
-        //swerve.setReversed(DegreeOfFreedom.ROTATION, true);
       });
   }
 }

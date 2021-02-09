@@ -48,14 +48,14 @@ public class Const {
          * Infinite Recharge offsets:
          * Front Right: 313.414
          * Front Left: 69.855
-         * Rear Right: 53.904
          * Rear Left: 43.001
+         * Rear Right: 53.904
          * 
          * SwerveIO Test Base offsets:
          * Front Right: 353.584
          * Front Left: 156.230
-         * Rear Right: 82.354
          * Rear Left: 78.223
+         * Rear Right: 82.354
          */
     }
 }

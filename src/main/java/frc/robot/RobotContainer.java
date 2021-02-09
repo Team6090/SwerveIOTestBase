@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.commands.HallAuton;
 import frc.robot.commands.Rotate;
 import frc.robot.commands.LimelightAlign;
 import frc.robot.subsystems.DriveTrain;
@@ -84,9 +83,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // This command will run in autonomous
     try {
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Simple" + ".wpilib.json");
+      /* False = Don't do rotation. */
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Simple" + ".wpilib.json", false);
     } catch (java.io.IOException e) {
       e.printStackTrace();
       DriverStation.reportError("Could not load pathweaver swerve drive.", true);
