@@ -24,15 +24,22 @@ public class Const {
     }
 
     public static class PID {
-        public static final double SWERVE_MODULE_RAMP_RATE = 0.0;
-        public static final double SWERVE_MODULE_P         = 0.003;
-        public static final double SWERVE_MODULE_I         = 0.00000155;
-        public static final double SWERVE_MODULE_D         = 0;
 
-        public static final double SWERVE_DRIVE_RAMP_RATE  = 0.035;
-        public static final double SWERVE_DRIVE_ANGLE_P    = 0.0055;
-        public static final double SWERVE_DRIVE_ANGLE_I    = 0.00000155;
-        public static final double SWERVE_DRIVE_ANGLE_D    = 0;
+        public static final int ANGLE_STANDING_SLOT = 0;
+        public static final int ANGLE_MOVING_SLOT = 1;
+
+        public static final double SWERVE_DRIVE_ANGLE_STANDING_P = 0.0055;
+        public static final double SWERVE_DRIVE_ANGLE_STANDING_I = 0;
+        public static final double SWERVE_DRIVE_ANGLE_STANDING_D = 0;
+
+        public static final double SWERVE_DRIVE_ANGLE_MOVING_P = 0.004;
+        public static final double SWERVE_DRIVE_ANGLE_MOVING_I = 0.0000001;
+        public static final double SWERVE_DRIVE_ANGLE_MOVING_D = 0;
+
+        public static final double SWERVE_MODULE_RAMP_RATE = 0.035;
+        public static final double SWERVE_MODULE_P = 0.003;
+        public static final double SWERVE_MODULE_I = 0.00000155;
+        public static final double SWERVE_MODULE_D = 0;
     }
 
     /**
@@ -44,18 +51,5 @@ public class Const {
         public static final double FRONT_LEFT_OFFSET  = 156.230;
         public static final double REAR_LEFT_OFFSET   = 82.354;
         public static final double REAR_RIGHT_OFFSET  = 78.223;
-        /**
-         * Infinite Recharge offsets:
-         * Front Right: 313.414
-         * Front Left: 69.855
-         * Rear Left: 43.001
-         * Rear Right: 53.904
-         * 
-         * SwerveIO Test Base offsets:
-         * Front Right: 353.584
-         * Front Left: 156.230
-         * Rear Left: 78.223
-         * Rear Right: 82.354
-         */
     }
 }
