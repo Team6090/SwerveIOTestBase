@@ -18,6 +18,11 @@ repositories {
     maven {
         url 'https://devsite.ctr-electronics.com/maven/release'
     }
+
+    /* JLimelight */
+    maven {
+        url 'https://maven.bancino.net'
+    }
 }
 
 deploy {

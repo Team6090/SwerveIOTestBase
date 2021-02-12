@@ -21,15 +21,14 @@ import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleopCommand;
 
 @SuppressWarnings("unused")
-public class LimelightAlign extends SwerveDriveTeleopCommand {
+public class LimelightRotate extends SwerveDriveTeleopCommand {
 
     /* Import parameters from the config file. Just slapped in here for SwerveIOTestBase. */
     private static final int rollingAverageWindow = 10;
     //private static final double rampRate = 0.5;
     private static final double maxOutput = 0.7;
-    private static final double desiredDistancetoTarget = 204;
     private static final double desiredAngletoTarget = 0;
-    private static final double desiredStrafetoTarget = 0;
+
 
     /** PID long distance slot (RCW) */
     
@@ -39,36 +38,24 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
     private static final double rotateI_S0 = 0.000063;
     private static final double rotateIZone_S0 = 4;
 
-    /** Non-RCW PID constants. */
-    private static final double forwardP = 0.002;
-    private static final double forwardI = 0.0005;
-    private static final double strafeP = 0.008;
-    private static final double strafeI = 0.001;
-
     private Limelight limelight;
     private boolean doFrontHatch;
-    private boolean isFinished = false;
+    private boolean isFinished;
     private boolean isFieldCentric = false;
-    private boolean fwdIsGood = false, strIsGood = false, rcwIsGood = false;
 
-    /** Variables to hold distance and the vector speed on that axis. */
-    private double fwd, str, rcw;
+    /** Variable to hold the value for rotation. */
+    private double rcw;
 
-    /** Timeout variables */
-    private long timeout = 5000;
+    /** Time variables */
     private long startTime = 0;
 
-    /** Makes a new RollingAverage for every axis that uses the average limelight readings over so many readings. */
-    private RollingAverage rollingAverageFWD = new RollingAverage(rollingAverageWindow);
+    /** Makes a new RollingAverage. */
     private RollingAverage rollingAverageRCW = new RollingAverage(rollingAverageWindow);
-    private RollingAverage rollingAverageSTR = new RollingAverage(rollingAverageWindow);
 
-    /** Make a PID controller for every axis that LimelightAlign corrects. P and I doubles defined in config file. */
-    private DefaultPIDController pidFWD = new DefaultPIDController(forwardP, forwardI, 0);
+    /** Make a PID controller for rotation. */
     private DefaultPIDController pidRCW = new DefaultPIDController(rotateP_S0, rotateI_S0, 0);
-    private DefaultPIDController pidSTR = new DefaultPIDController(strafeP, strafeI, 0);
 
-    public LimelightAlign(SwerveDrive drivetrain, SwerveDriveTeleop swerveDriveTeleop, Limelight limelight) {
+    public LimelightRotate(SwerveDrive drivetrain, SwerveDriveTeleop swerveDriveTeleop, Limelight limelight) {
         super(drivetrain, swerveDriveTeleop);
         this.limelight = limelight;
     }
@@ -77,9 +64,7 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
     public void initialize(SwerveDrive drivetrain) {
 
         /** Setting the maximum output value each axis. Defined in config file. */
-        pidFWD.setOutputLimits(maxOutput);
         pidRCW.setOutputLimits(maxOutput);
-        pidSTR.setOutputLimits(maxOutput);
 
         limelight.setPipeline(0);
         
@@ -87,22 +72,14 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
         drivetrain.setFieldCentric(false);
 
         limelight.setLedMode(LedMode.FORCE_ON);
-        /** For the front hatch, there's no need for head-on alignment where forward and strafe would matter. */
-        if (doFrontHatch) {
-            fwd = 0;
-            str = 0;
-        }
+
         startTime = System.currentTimeMillis();
-        /** -1 is the value that means there is no timeout, so if you're not doing the front hatch, there needs to be a timeout. */
-        if (doFrontHatch) {
-            timeout = -1;
-        }
     }
 
     @Override
     public void execute(SwerveDrive drivetrain, SwerveVector joystickVector) {
 
-        /** If there's no target, no bueno. Exit the command. */
+        /** If there's no target, no bueno. Exit the command. Also, wait 1 second to give the Limelight a chance to turn on. */
         if (!limelight.hasValidTargets() && System.currentTimeMillis() - startTime > 1000) {
             isFinished = true;
             return;
@@ -127,7 +104,7 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
             currentScanInBounds = false;
         }
 
-        /** Uses the booleans determined above to set the RCW iZone. */
+        /** Uses the booleans determined above to set the RCW IZone. */
         if (!firstScanInBounds && currentScanInBounds) {
             pidRCW.reset();
             pidRCW.setI(0, rotateI_S0);
@@ -137,9 +114,8 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
         }
 
         /** 
-         * RCW must be done for front and back hatches, so it gets calculated here before any other axis.
          * Values are put into the rolling average first to smooth out jumpy readings, and then put into the PID
-         * loop for more efficient readings. (For all axis').
+         * loop for more efficient readings.
          */
         rollingAverageRCW.add(limelight.getHorizontalOffset());
         if (rollingAverageRCW.getCursor() == rollingAverageWindow - 1) {
@@ -148,31 +124,8 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
             rcw = 0;
         }
 
-        /**
-         * Sets forward and strafe.
-         * Forwards and strafe were set equal to zero in init.
-         */
-        double[] camtran = limelight.getCamTran();
-        /** Forwards calculations. */
-        rollingAverageFWD.add(camtran[2]);
-        fwd = pidFWD.getOutput(rollingAverageFWD.get(), desiredDistancetoTarget);
-        /** Strafe calculations. */
-        rollingAverageSTR.add(camtran[0]);
-        str = pidSTR.getOutput(rollingAverageSTR.get(), desiredStrafetoTarget);
-
-        /** End the program when all axis are good. */
-        if (fwdIsGood && strIsGood && rcwIsGood) {
-            isFinished = true;
-            return;
-        }
-
-        /** If the timeout is hit, end the command. */
-        if (timeout > 0 && System.currentTimeMillis() - startTime >= timeout) {
-            isFinished = true;
-        }
-
         /** Robot go vroom on the vector with swerve drive. */
-        SwerveVector alignmentVector = new SwerveVector(fwd, str, -rcw);
+        SwerveVector alignmentVector = new SwerveVector(0, 0, -rcw);
         alignmentVector = alignmentVector.plus(joystickVector);
         drivetrain.drive(alignmentVector);
     }
@@ -182,6 +135,7 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
         limelight.setLedMode(LedMode.PIPELINE_CURRENT);
         drivetrain.setFieldCentric(isFieldCentric);
         rollingAverageRCW.reset();
+        pidRCW.reset();
     }
 
     @Override
@@ -189,3 +143,4 @@ public class LimelightAlign extends SwerveDriveTeleopCommand {
         return isFinished;
     }
 }
+

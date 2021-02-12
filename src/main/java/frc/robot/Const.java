@@ -47,9 +47,17 @@ public class Const {
      */
     public static class Angle {
         /* The angle offsets tell us where zero is for each swerve module - Make all the gears face to the RIGHT */
+        
+        /** SwerveIO test base offsets */
         public static final double FRONT_RIGHT_OFFSET = 353.584;
         public static final double FRONT_LEFT_OFFSET  = 156.230;
         public static final double REAR_LEFT_OFFSET   = 82.354;
         public static final double REAR_RIGHT_OFFSET  = 78.223;
+
+        /** Infinite Recharge offsets */
+        //public static final double FRONT_RIGHT_OFFSET = 187.998;
+        //public static final double FRONT_LEFT_OFFSET  = 333.587;
+        //public static final double REAR_LEFT_OFFSET   = 11.074;
+        //public static final double REAR_RIGHT_OFFSET  = 295.312;
     }
 }
