@@ -36,6 +36,8 @@ public class Const {
         public static final double SWERVE_DRIVE_ANGLE_MOVING_I = 0.0000001;
         public static final double SWERVE_DRIVE_ANGLE_MOVING_D = 0;
 
+        public static final double SWERVE_DRIVE_ACCEPTABLE_ERROR = 0.25;
+
         public static final double SWERVE_MODULE_RAMP_RATE = 0.035;
         public static final double SWERVE_MODULE_P = 0.003;
         public static final double SWERVE_MODULE_I = 0.00000155;

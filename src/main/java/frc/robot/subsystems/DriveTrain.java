@@ -48,6 +48,7 @@ public class DriveTrain {
         pid.setI(Const.PID.ANGLE_MOVING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_MOVING_I);
         pid.setD(Const.PID.ANGLE_MOVING_SLOT, Const.PID.SWERVE_DRIVE_ANGLE_MOVING_D);
         
+        pid.setAcceptableError(Const.PID.SWERVE_DRIVE_ACCEPTABLE_ERROR);
       })
       .setRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE)
       .setModuleMap((map) -> {
