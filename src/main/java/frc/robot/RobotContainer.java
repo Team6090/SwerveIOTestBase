@@ -71,7 +71,12 @@ public class RobotContainer {
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(0.7);
+    
     drivetrain.setDefaultCommand(swerveDriveTeleop);
+
+    ConstantAcceleration testCommand = new ConstantAcceleration(drivetrain);
+    JoystickButton xbox0Y = new JoystickButton(xbox0, XboxController.Button.kY.value);
+    xbox0Y.toggleWhenPressed(testCommand);
   }
 
   /**
