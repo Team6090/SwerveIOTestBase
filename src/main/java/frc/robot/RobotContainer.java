@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.commands.Rotate;
 import frc.robot.subsystems.DriveTrain;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
@@ -62,9 +61,6 @@ public class RobotContainer {
     leftBumper.whenPressed(new InstantCommand(() -> {
       drivetrain.getGyro().zero();
     }, drivetrain));
-
-    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    xbox0X.whenPressed(new Rotate(drivetrain, gyro, 90, 1000));
   }
 
   private void configureCommands() {
