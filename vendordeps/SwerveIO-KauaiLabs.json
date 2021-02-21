@@ -1,0 +1,23 @@
+{
+    "cppDependencies": [],
+    "fileName": "SwerveIO-KauaiLabs.json",
+    "javaDependencies": [
+        {
+            "artifactId": "SwerveIO-KauaiLabs",
+            "groupId": "net.bancino.robotics",
+            "version": "6.0.2"
+        }
+    ],
+    "jniDependencies": [],
+    "jsonUrl": "https://maven.bancino.net/SwerveIO-KauaiLabs.json",
+    "mavenUrls": [
+        "https://maven.bancino.net",
+        "https://jcenter.bintray.com/",
+        "https://frcmaven.wpi.edu/artifactory/release",
+        "https://devsite.ctr-electronics.com/maven/release",
+        "https://www.revrobotics.com/content/sw/max/sdk/maven"
+    ],
+    "name": "SwerveIO-KauaiLabs",
+    "uuid": "net.bancino.robotics:SwerveIO-KauaiLabs",
+    "version": "6.0.2"
+}
