@@ -37,7 +37,7 @@ public class DriveTrain {
 
   public static SwerveDrive create(Gyro gyro) {
     return new SwerveDrive.Builder()
-      .useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
+      .useDefaultKinematics(new ChassisDimension(new Length(22.5, Unit.INCHES)))
       .setGyro(gyro)
       // TODO: Add this back for Gyro tuning
       //.setAnglePID(Const.PID.ANGLE_STANDING_SLOT, Const.PID.ANGLE_MOVING_SLOT, (pid) -> {
