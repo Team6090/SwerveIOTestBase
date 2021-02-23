@@ -39,8 +39,9 @@ public class Const {
         public static final double SWERVE_DRIVE_ACCEPTABLE_ERROR = 0.25;
 
         public static final double SWERVE_MODULE_RAMP_RATE = 0.035;
-        public static final double SWERVE_MODULE_P = 0.003;
-        public static final double SWERVE_MODULE_I = 0.00000155;
+
+        public static final double SWERVE_MODULE_P = 0.0035;
+        public static final double SWERVE_MODULE_I = 0.000175;
         public static final double SWERVE_MODULE_D = 0;
     }
 
