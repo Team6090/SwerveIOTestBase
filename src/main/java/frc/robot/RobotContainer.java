@@ -78,7 +78,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     try {
       /* False = Don't do rotation. */
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Simple" + ".wpilib.json", false);
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Straight" + ".wpilib.json", false);
     } catch (java.io.IOException e) {
       e.printStackTrace();
       DriverStation.reportError("Could not load pathweaver swerve drive.", true);
